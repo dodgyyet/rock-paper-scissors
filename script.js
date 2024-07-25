@@ -9,12 +9,12 @@ function getComputerChoice() {
     let compChoice;
     switch(parseInt(ranNum)) {
         case 1:
-            compChoice = "rock"
+            compChoice = "Rock"
             break;
         case 2:
-            compChoice = "paper"
+            compChoice = "Paper"
             break;
-        case 3: compChoice = "scissors"
+        case 3: compChoice = "Scissors"
             break;          
     } 
     return compChoice;
@@ -27,13 +27,13 @@ function getComputerChoice() {
 //Takes two "players" and sees if the first player won, if yes then returns True. 
 // Otherwise, returns false
 function getWinner(p1,p2) {
-    if (p1 === "rock" && p2 === "scissors") {
+    if (p1 === "Rock" && p2 === "Scissors") {
         return true;
     }
-    else if (p1 === "paper" && p2 === "rock") {
+    else if (p1 === "Paper" && p2 === "Rock") {
         return true;
     }
-    else if (p1 === "scissors" && p2 === "paper") {
+    else if (p1 === "Scissors" && p2 === "Paper") {
         return true;
     }
     else {
@@ -42,61 +42,53 @@ function getWinner(p1,p2) {
 }
 
 //Determins if either player won or cpu won with getWinner(), or else its a tie
-function playRound(humanChoice) {
+function playRound(humanChoice,humanScore,computerScore) {
+    const outputDiv = document.querySelector("#results");
     const computerChoice = getComputerChoice();
     const playerWin = getWinner(humanChoice,computerChoice);
     const compWin = getWinner(computerChoice,humanChoice);
-    console.log(`${humanChoice} vs ${computerChoice}`)
+    console.log(`${humanChoice} vs ${computerChoice}`);
     if (playerWin===true) {
-        console.log(`YOUR ${humanChoice} BEATS CPU'S ${computerChoice}`)
-        console.log("YOU WON!")
-        return('won')
+        outputDiv.textContent = `Your ${humanChoice} Beats Cpu's ${computerChoice}`;
+        humanScore+=1;
     }
     else if (compWin===true) {
-        console.log(`CPU'S ${computerChoice} BEATS YOUR ${humanChoice}`)
-        console.log("YOU LOST!")
-        return("lost")
+        outputDiv.textContent = `Cpu's ${computerChoice} Beats Your ${humanChoice}`;
+        computerScore +=1;
     }
     else {
-        console.log("YOU TIED")
-        return("tied")
-    }
-
-}
+        outputDiv.textContent = `You tied!`;   
+    };
+    return outputGameResult(humanScore,computerScore)
+    
+    
+};
 
 // Outputs the final result of the game after 5 rounds to determine of player won, computer won, or tied
 function outputGameResult(humanScore, computerScore) {
-    console.log(`GAME SCORE:\nPLAYER: ${humanScore}\nCOMPUTER: ${computerScore}`);
-    if (humanScore > computerScore) {
-        console.log("YOU WON THE GAME")
-    }
-    else if (humanScore < computerScore) {
-        console.log("YOU LOST THE GAME")
+    const scoreDiv = document.querySelector("#score");
+    if (humanScore === 5 || computerScore === 5) {
+        if (humanScore > computerScore) {
+            scoreDiv.textContent = `You Won The Game ${humanScore} To ${computerScore}!`
+        }
+        else if (humanScore < computerScore) {
+             scoreDiv.textContent = `You Lost The Game ${humanScore} To ${computerScore}`
+        }; 
+        return [0,0]
     }
     else {
-        console.log("THE GAME IS TIED")
+        scoreDiv.textContent = `Game Score:\nPlayer: ${humanScore}\nComputer: ${computerScore}`
+        return [humanScore,computerScore]
     }
 }
 
-// Runs 5 rounds and adds the score of each round to determine the final winner
-//function playGame(humanScore, computerScore) {
-    //for (let round = 0; round<5; round++) {
-        //let result = playRound();
-        //if (result === "won") {
-            //humanScore+=1
-        //}
-        //else if (result === "lost") {
-            //computerScore +=1
-        //}
-    //}
-    ////outputGameResult(humanScore, computerScore);
-//}
 
 
 
 //Initializes game
-//let humanScore = 0, computerScore = 0;
-//playGame(humanScore, computerScore)
+let humanScore = 0;
+let computerScore = 0;
+
 
 
 const btnCont = document.querySelector("#btn-container");
@@ -106,16 +98,18 @@ btnCont.addEventListener("click" ,(event) => {
     let move;
     switch(target.id) {
         case "Rock":
-            move = "rock";
+            move = "Rock";
             break;
         case "Paper":
-            move = "paper";
+            move = "Paper";
             break;
         case "Scissors":
-            move = "scissors";
+            move = "Scissors";
             break;
         default:
-            console.log("unknown press")
+            console.log("unknown press");
     }
-    playRound(move)
+    let scores = playRound(move,humanScore,computerScore);
+    humanScore = scores[0]
+    computerScore = scores[1]
 });

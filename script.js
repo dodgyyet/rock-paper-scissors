@@ -9,12 +9,12 @@ function getComputerChoice() {
     let compChoice;
     switch(parseInt(ranNum)) {
         case 1:
-            compChoice = "ROCK"
+            compChoice = "rock"
             break;
         case 2:
-            compChoice = "PAPER"
+            compChoice = "paper"
             break;
-        case 3: compChoice = "SCISSORS"
+        case 3: compChoice = "scissors"
             break;          
     } 
     return compChoice;
@@ -23,38 +23,17 @@ function getComputerChoice() {
 
 
 
-//Continually Asks for input 'Rock', 'Paper', or 'Scissors' and returns one of the three
-function getHumanChoice() {
-    let tries = 0;
-    while(true) {
-        let choice = prompt("Rock, Paper, or Scissors?").toUpperCase();
-        if(choice === "ROCK" 
-        || choice === "PAPER" 
-        || choice === "SCISSORS"
-        ){
-            return choice
-        }
-        else {
-            alert("INVALID ANSWER")
-            ++tries
-        }
-        if(tries > 2) {
-            alert("I'll Pick For You...")
-            return "PAPER";
-        }
-    }   
-}
 
 //Takes two "players" and sees if the first player won, if yes then returns True. 
 // Otherwise, returns false
 function getWinner(p1,p2) {
-    if (p1 === "ROCK" && p2 === "SCISSORS") {
+    if (p1 === "rock" && p2 === "scissors") {
         return true;
     }
-    else if (p1 === "PAPER" && p2 === "ROCK") {
+    else if (p1 === "paper" && p2 === "rock") {
         return true;
     }
-    else if (p1 === "SCISSORS" && p2 === "PAPER") {
+    else if (p1 === "scissors" && p2 === "paper") {
         return true;
     }
     else {
@@ -63,8 +42,7 @@ function getWinner(p1,p2) {
 }
 
 //Determins if either player won or cpu won with getWinner(), or else its a tie
-function playRound() {
-    const humanChoice = getHumanChoice();
+function playRound(humanChoice) {
     const computerChoice = getComputerChoice();
     const playerWin = getWinner(humanChoice,computerChoice);
     const compWin = getWinner(computerChoice,humanChoice);
@@ -120,5 +98,24 @@ function outputGameResult(humanScore, computerScore) {
 //let humanScore = 0, computerScore = 0;
 //playGame(humanScore, computerScore)
 
-result = playRound()
 
+const btnCont = document.querySelector("#btn-container");
+console.log(btnCont);
+btnCont.addEventListener("click" ,(event) => {
+    let target=event.target;
+    let move;
+    switch(target.id) {
+        case "Rock":
+            move = "rock";
+            break;
+        case "Paper":
+            move = "paper";
+            break;
+        case "Scissors":
+            move = "scissors";
+            break;
+        default:
+            console.log("unknown press")
+    }
+    playRound(move)
+});

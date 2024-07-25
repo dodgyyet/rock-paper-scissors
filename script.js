@@ -81,7 +81,7 @@ function playRound() {
     }
     else {
         console.log("YOU TIED")
-        return
+        return("tied")
     }
 
 }
@@ -101,23 +101,24 @@ function outputGameResult(humanScore, computerScore) {
 }
 
 // Runs 5 rounds and adds the score of each round to determine the final winner
-function playGame(humanScore, computerScore) {
-    for (let round = 0; round<5; round++) {
-        let result = playRound();
-        if (result === "won") {
-            humanScore+=1
-        }
-        else if (result === "lost") {
-            computerScore +=1
-        }
-    }
-    outputGameResult(humanScore, computerScore);
-}
+//function playGame(humanScore, computerScore) {
+    //for (let round = 0; round<5; round++) {
+        //let result = playRound();
+        //if (result === "won") {
+            //humanScore+=1
+        //}
+        //else if (result === "lost") {
+            //computerScore +=1
+        //}
+    //}
+    ////outputGameResult(humanScore, computerScore);
+//}
 
 
 
 //Initializes game
-let humanScore = 0, computerScore = 0;
-playGame(humanScore, computerScore)
+//let humanScore = 0, computerScore = 0;
+//playGame(humanScore, computerScore)
 
+result = playRound()
 
